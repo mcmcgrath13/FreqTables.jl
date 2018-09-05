@@ -99,6 +99,8 @@ versicolor          │     3      8
 Note that when one of the input variables contains integers, `Name(i)` has to be used
 when indexing into the table to prevent `i` to be interpreted as a numeric index:
 ```
+julia> using DataFrames, NamedArrays
+
 julia> df = DataFrame(A = 101:103, B = ["x","y","y"]);
 
 julia> ft = freqtable(df, :A, :B)
