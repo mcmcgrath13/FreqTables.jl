@@ -1,5 +1,6 @@
 using FreqTables
 using Test
+using NamedArrays
 
 x = repeat(["a", "b", "c", "d"], outer=[100]);
 # Values not in order to test discrepancy between index and levels with CategoricalArray
@@ -173,3 +174,14 @@ end
 
 @test_throws ArgumentError freqtable()
 @test_throws ArgumentError freqtable(DataFrame())
+
+# Integer dimension
+df = DataFrame(A = 101:103, B = ["x","y","y"]);
+intft = freqtable(df, :A, :B)
+@test names(intft) == [[101,102,103],["x","y"]]
+@test intft == [1 0;
+                0 1;
+                0 1]
+
+@test_throws BoundsError intft[101,"x"]
+@test intft[Name(101),"x"] == 1
